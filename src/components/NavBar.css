@@ -1,0 +1,50 @@
+.nav-container {
+  height: max(8vh, 60px);
+  display: flex;
+  justify-content:space-between;
+  
+}
+
+.nav-button > h2{
+  align-self: center;
+  margin: 0;
+  font-weight: bold;
+}
+
+.nav-button{
+  margin-left: 3vw;
+  color: var(--dark-blue);
+  display: flex;
+}
+
+.nav-links {
+  width: 50%;
+  height: 100%;
+}
+
+.nav-menu {
+  list-style: none;
+  margin-right: 3vw;
+  margin-bottom: 0;
+  height: 100%;
+  align-items: center;
+  justify-content: end;
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  grid-gap: min(10%, 5vw);
+  
+  
+}
+
+.nav-item {
+  font-size: 32px;
+}
+
+.nav-link {
+  color:var(--dark-yellow);
+  font-weight: 500;
+}
+
+.nav-link:hover{
+  color: var(--black)
+}
