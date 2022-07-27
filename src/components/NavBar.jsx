@@ -4,29 +4,29 @@ import { Link, NavLink } from "react-router-dom";
 
 function NavBar() {
   return (
-    <div className="nav-container">
-      <div className="nav-button">
+    <div className="navbar-container">
+      <div className="navbar-button">
         <h2>React Playground</h2>
       </div>
-      <div className="nav-links">
-        <ul className="nav-menu">
-          <li className="nav-item">
-            <Link className="nav-link" to="/">
+      <div className="navbar-links">
+        <ul className="navbar-menu">
+          <li className="navbar-item">
+            <Link className="navbar-link" to="/">
               About
             </Link>
           </li>
-          <li className="nav-item">
-            <Link className="nav-link" to="/">
+          <li className="navbar-item">
+            <Link className="navbar-link" to="/">
               Blablabl
             </Link>
           </li>
-          <li className="nav-item">
-            <Link className="nav-link" to="/">
+          <li className="navbar-item">
+            <Link className="navbar-link" to="/">
               Blabla
             </Link>
           </li>
-          <li className="nav-item">
-            <Link className="nav-link" to="/">
+          <li className="navbar-item">
+            <Link className="navbar-link" to="/">
               Blabla
             </Link>
           </li>

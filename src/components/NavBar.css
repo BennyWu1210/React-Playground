@@ -1,30 +1,30 @@
-.nav-container {
+.navbar-container {
   height: max(8vh, 60px);
   display: flex;
   justify-content:space-between;
   
 }
 
-.nav-button > h2{
+.navbar-button > h2{
   align-self: center;
   margin: 0;
   font-weight: bold;
 }
 
-.nav-button{
+.navbar-button{
   margin-left: 3vw;
   color: var(--dark-blue);
   display: flex;
 }
 
-.nav-links {
+.navbar-links {
   width: 50%;
   height: 100%;
 }
 
-.nav-menu {
+.navbar-menu {
   list-style: none;
-  margin-right: 3vw;
+  margin-right: 6vw;
   margin-bottom: 0;
   height: 100%;
   align-items: center;
@@ -34,25 +34,26 @@
   grid-gap: min(10%, 5vw);
 }
 
-.nav-item {
+.navbar-item {
   font-size: 32px;
 }
 
-.nav-link {
+.navbar-link {
   color: var(--dark-yellow);
   font-weight: 500;
+  text-decoration: none;
 }
 
-.nav-link:hover{
+.navbar-link:hover{
   color: var(--black)
 }
 
 @media screen and (max-width: 950px){
-  .nav-item{
+  .navbar-item{
     font-size: 24px;
   }
 
-  .nav-menu {
+  .navbar-menu {
     grid-gap: min(10px);
   }
 }
