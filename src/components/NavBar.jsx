@@ -6,7 +6,7 @@ function NavBar() {
   return (
     <div className="nav-container">
       <div className="nav-button">
-        <h2>React's Playground</h2>
+        <h2>React Playground</h2>
       </div>
       <div className="nav-links">
         <ul className="nav-menu">

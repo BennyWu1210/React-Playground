@@ -3,10 +3,150 @@
   height: 100vh;
 }
 
-.main-content{
-  background-color: var(--orange); opacity: 0.75;
-  margin-right: 40px;
-  margin-top: 80px;
-  width: 50vw;
-  
+.hero-container{
+  display: flex;
+  justify-content: space-between;
+  margin: 30px 5vw;
+}
+
+.hero-content{
+  background-color: var(--orange); opacity: 0.85;
+  height: 700px;
+  width: max(50vw, 500px);
+  border-radius: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 10px 10px;
+}
+
+#benny-avatar{
+  margin: 60px 10%;
+  width: 40%;
+  max-width: 300px;
+  border-radius: 35px;
+  transition: transform 0.3s;
+}
+
+#benny-avatar:hover{
+  transform: scale(1.05);
+}
+
+#title{
+  font-weight: 700;
+  font-size: 80px;
+  text-align: center;
+  margin: 0px 70px;
+  color: var(--black);
+  transition: transform 0.3s;
+}
+
+#title:hover{
+  transform: scale(1.1);
+}
+
+.description-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: auto;
+  max-width: 800px;
+}
+
+.decoration {
+  margin-bottom: 30px;
+  margin-left: 30px;
+  display: inline-block;
+  position: relative;
+}
+
+.dot:hover{
+  transform: scale(1.2);
+}
+
+.dot{
+  position: absolute;
+  display: inline-block;
+  border-radius: 50%;
+  transition: transform 0.6s
+}
+
+#dot1{
+  left: 20px;
+  top: 10px;
+  background-color: var(--orange); 
+  width: 250px;
+  height: 250px;
+}
+
+#dot2{
+  left: 20px;
+  top: 10px;
+  background-color: var(--dark-blue); 
+  width: 59px;
+  height: 62px;
+}
+
+#dot3{
+  left: 280px;
+  top: 90px;
+  background-color: var(--light-blue); 
+  width: 60px;
+  height: 55px;
+}
+
+#dot4{
+  left: -30px;
+  top: 270px;
+  background-color: var(--light-blue); 
+  width: 63px;
+  height: 64px;
+}
+
+#dot5{
+  left: 180px;
+  top: 162px;
+  background-color: var(--sky-blue); 
+  width: 150px;
+  height: 143px;
+}
+
+#dot6{
+  left: 50px;
+  top: 262px;
+  background-color: var(--dark-blue); 
+  width: 150px;
+  height: 143px;
+}
+
+.description{
+  margin-right: 20px;
+}
+.description > h3{
+  font-weight: 600;
+  color: var(--dark-blue);
+}
+
+.description > p{
+  font-size: 24px;
+}
+
+@media screen and (max-width: 1100px){
+  .description > p{
+    font-size: 18px;
+  }
+}
+
+@media screen and (max-width: 900px){
+  .hero-container{
+    display: flex;
+    flex-direction: column-reverse;
+    height: auto;
+    align-items: center;
+  }
+
+
+  .decoration{
+    visibility: hidden;
+  }
 }

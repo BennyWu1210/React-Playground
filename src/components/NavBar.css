@@ -32,8 +32,6 @@
   display: grid;
   grid-template-columns: repeat(4, auto);
   grid-gap: min(10%, 5vw);
-  
-  
 }
 
 .nav-item {
@@ -47,4 +45,14 @@
 
 .nav-link:hover{
   color: var(--black)
+}
+
+@media screen and (max-width: 950px){
+  .nav-item{
+    font-size: 24px;
+  }
+
+  .nav-menu {
+    grid-gap: min(10px);
+  }
 }
