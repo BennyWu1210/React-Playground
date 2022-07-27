@@ -39,7 +39,7 @@
 }
 
 .nav-link {
-  color: darkgoldenrod;
+  color: var(--dark-yellow);
   font-weight: 500;
 }
 
