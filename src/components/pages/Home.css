@@ -13,6 +13,7 @@
   background-color: var(--orange); opacity: 0.85;
   height: 700px;
   width: max(50vw, 500px);
+  max-width: 1000px;
   border-radius: 25px;
   display: flex;
   flex-direction: column;

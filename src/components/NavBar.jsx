@@ -2,7 +2,7 @@ import React from "react";
 import "./NavBar.css";
 import { Link, NavLink } from "react-router-dom";
 
-function NavBar() {
+function NavBar({ color }) {
   return (
     <div className="navbar-container">
       <div className="navbar-button">
@@ -12,7 +12,7 @@ function NavBar() {
         <ul className="navbar-menu">
           <li className="navbar-item">
             <Link className="navbar-link" to="/">
-              About
+              asdfads
             </Link>
           </li>
           <li className="navbar-item">
@@ -21,13 +21,13 @@ function NavBar() {
             </Link>
           </li>
           <li className="navbar-item">
-            <Link className="navbar-link" to="/">
-              Blabla
+            <Link className="navbar-link" to="/login">
+              Login
             </Link>
           </li>
           <li className="navbar-item">
             <Link className="navbar-link" to="/">
-              Blabla
+              About
             </Link>
           </li>
         </ul>
