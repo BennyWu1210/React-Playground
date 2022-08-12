@@ -1,9 +1,9 @@
-.login-page{
-  background: linear-gradient(var(--dark-blue), var(--sky-blue) 280%);
+.reg-page{
+  background: linear-gradient(to top, var(--orange), white 200%);
   height: 100vh;
 }
 
-.login-content{
+.reg-content{
   background-color: #F5F5F5;
   height: min(70%, 900px);
   width: min(70%, 1200px);
@@ -14,7 +14,7 @@
   flex-shrink: 0;
 }
 
-.login-decoration{
+.reg-decoration{
   width: 45%;
   background-color: #fff;
   border-radius: 30px 0 0 30px;
@@ -54,7 +54,7 @@
   transform: scale(1.06);
 }
 
-.login-info{
+.reg-info{
   width: 55%;
   display: flex;
   justify-content: center;

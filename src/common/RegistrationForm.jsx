@@ -1,34 +1,36 @@
 import { React, useState } from "react";
-import "./LoginForm.css";
+import "./RegistrationForm.css";
 import { schema } from "joi-browser";
 import Joi from "joi-browser";
-import { Link } from "react-router-dom";
 
-function LoginForm() {
+function RegistrationForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
   const [errors, setErrors] = useState({});
 
   schema = {
     username: Joi.string().required().label("Username"),
-    password: Joi.string().required().label("Password"),
+    password: Joi.string().required().label("Password").min(5).max(20),
+    email: Joi.string().required().label("Email").email(),
   };
 
   const validate = () => {
-    const result = Joi.validate({ username, password }, schema, {
+    const result = Joi.validate({ username, password, email }, schema, {
       abortEarly: false,
     });
 
     if (!result.error) return null;
     const errors = {};
     for (let item of result.error.details) errors[item.path[0]] = item.message;
-    console.log(errors);
+
     return errors;
   };
 
   const validateProperty = ({ name, value }) => {
     const obj = { [name]: value };
     const { error } = Joi.validate(obj, { [name]: schema[name] });
+
     return error ? error.details[0].message : null;
   };
 
@@ -42,49 +44,62 @@ function LoginForm() {
   };
 
   return (
-    <div className="login-container">
-      <h2>Login 🚀</h2>
-      <Link className="registration-link" to="/registration">
-        No account yet? Sign up here!
-      </Link>
+    <div className="reg-container">
+      <h2>Registration 🔥</h2>
+
       <form onSubmit={handleSumbit}>
         {/* Username */}
-        <div className="login-group">
+        <div className="reg-group">
           <label htmlFor="username">Username</label>
-          <div className="login-field">
+          <div className="reg-field">
             <input
               autoFocus
               id="username"
               type="text"
-              className="login-control"
+              className="reg-control"
               value={username}
               onChange={(e) => setUsername(e.currentTarget.value)}
             />
           </div>
           {errors.username && (
-            <div className="login-alert">{errors.username}</div>
+            <div className="reg-alert">{errors.username}</div>
           )}
         </div>
 
         {/* Password */}
-        <div className="login-group">
+        <div className="reg-group">
           <label htmlFor="password">Password</label>
-          <div className="login-field">
+          <div className="reg-field">
             <input
               value={password}
               id="password"
               type="text"
-              className="login-control"
+              className="reg-control"
               onChange={(e) => setPassword(e.currentTarget.value)}
             />
           </div>
           {errors.password && (
-            <div className="login-alert">{errors.password}</div>
+            <div className="reg-alert">{errors.password}</div>
           )}
         </div>
-        <button className="login-button">Login</button>
+
+        {/* Email */}
+        <div className="reg-group">
+          <label htmlFor="email">Email</label>
+          <div className="reg-field">
+            <input
+              value={email}
+              id="email"
+              type="text"
+              className="reg-control"
+              onChange={(e) => setEmail(e.currentTarget.value)}
+            />
+          </div>
+          {errors.email && <div className="reg-alert">{errors.email}</div>}
+        </div>
+        <button className="reg-button">Sign Up</button>
       </form>
     </div>
   );
 }
-export default LoginForm;
+export default RegistrationForm;
