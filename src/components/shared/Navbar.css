@@ -1,5 +1,24 @@
 .nav-container {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    top: 0px;
+}
+
+.nav-links {
     background-color: antiquewhite;
     display: flex;
     justify-content: space-around;
+    width: 100%;
 }
+
+.nav-links.hidden {
+    display: none;
+}
+
+.nav-link {
+    font-size: larger;
+    text-decoration: none;
+    align-self: center;
+}
+

@@ -1,4 +1,16 @@
+/* Global CSS file */
+
 body {
   margin: 0;
   font-family: 'Inter', sans-serif;
+}
+
+/* TODO: Add dark mode later */
+:root {
+  --white: #f5f5f5;
+  --umber: #685044;
+  --melon: #e9afa3;
+  --powder-blue: #99b2dd;
+  --champagne-pink: #f9dec9;
+  --delft-blue: #3a405a;
 }
