@@ -1,0 +1,10 @@
+.home-page {
+    display: flex;
+    justify-content: center;
+}
+
+.home-title {
+    position: absolute;
+    top: 45%;
+}
+
