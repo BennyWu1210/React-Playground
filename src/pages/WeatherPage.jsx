@@ -91,7 +91,7 @@ const WeatherPage = () => {
   const updateForecast = async (latitude, longitude) => {
     try {
       const response = await fetch(
-        `http://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${process.env.REACT_APP_OPENWEATHER_API_KEY}`
+        `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${process.env.REACT_APP_OPENWEATHER_API_KEY}`
       ).then((response) => response.json());
       const responseData = response.list;
 
