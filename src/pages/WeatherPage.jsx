@@ -99,7 +99,6 @@ const WeatherPage = () => {
       const options = { weekday: "long" };
       let currentDay = currentDate.toLocaleString("en-US", options);
 
-      console.log(currentDay);
       let index = -1;
       const newForecastData = [
         { id: 0, day: "", type: "", range: [100, -100] },
@@ -109,6 +108,7 @@ const WeatherPage = () => {
         { id: 4, day: "", type: "", range: [100, -100] },
       ];
 
+      console.log(responseData);
       for (const data of responseData) {
         const date = new Date(data.dt_txt);
         const dayOfWeek = date.toLocaleString("en-US", options);
