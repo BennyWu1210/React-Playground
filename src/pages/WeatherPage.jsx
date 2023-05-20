@@ -13,6 +13,7 @@ import LowHighIcon from "../assets/icons/Low-high.png";
 import Autocomplete from "react-google-autocomplete";
 
 import { getIcons } from "../utils/WeatherIcons";
+import moment from "moment";
 
 const WeatherPage = () => {
   const [url, setUrl] = useState(
@@ -97,7 +98,8 @@ const WeatherPage = () => {
 
       const currentDate = new Date();
       const options = { weekday: "long" };
-      let currentDay = currentDate.toLocaleString("en-US", options);
+      // let currentDay = currentDate.toLocaleString("en-US", options);
+      let currentDay = moment(currentDate).format("dddd");
 
       let index = -1;
       const newForecastData = [
@@ -112,7 +114,7 @@ const WeatherPage = () => {
       for (const data of responseData) {
         console.log(data.dt_txt);
         const date = new Date(data.dt_txt);
-        const dayOfWeek = date.toLocaleString("en-US", options);
+        const dayOfWeek = moment(date).format("dddd");
 
         if (dayOfWeek !== currentDay) {
           currentDay = dayOfWeek;
