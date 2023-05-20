@@ -98,6 +98,8 @@ const WeatherPage = () => {
       const currentDate = new Date();
       const options = { weekday: "long" };
       let currentDay = currentDate.toLocaleString("en-US", options);
+
+      console.log(currentDay);
       let index = -1;
       const newForecastData = [
         { id: 0, day: "", type: "", range: [100, -100] },
@@ -241,7 +243,6 @@ const WeatherPage = () => {
         <div className="weather-card" id="weather-forecast">
           <h3>5-DAY FORECAST</h3>
           {forecastData.map((data) => {
-            console.log(data);
             return (
               <ForecastCard
                 key={data.id}
