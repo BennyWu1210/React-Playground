@@ -112,8 +112,9 @@ const WeatherPage = () => {
 
       console.log(responseData);
       for (const data of responseData) {
-        console.log(data.dt_txt);
-        const date = new Date(data.dt_txt);
+        const date_txt = data.dt_txt.split(" ");
+        console.log(date_txt[0] + "T" + date_txt[1]);
+        const date = new Date(date_txt[0] + "T" + date_txt[1]);
         const dayOfWeek = moment(date).format("dddd");
 
         if (dayOfWeek !== currentDay) {
