@@ -115,6 +115,7 @@ const WeatherPage = () => {
           currentDay = dayOfWeek;
           index++;
         }
+        if (index === -1) continue;
         if (index == 5) break;
 
         newForecastData[index] = {
@@ -171,6 +172,7 @@ const WeatherPage = () => {
         };
 
         setWeatherData(newWeatherData);
+        updateForecast(latitude, longitude);
       }
     } catch (err) {
       console.log("Incorrect city!");

@@ -20,7 +20,7 @@ const FunFact = () => {
           messages: [
             {
               role: "user",
-              content: "generate a fun paradox for me",
+              content: "Fiona is a pig, create a 2-sentence story",
             },
           ],
           temperature: 1.5,
