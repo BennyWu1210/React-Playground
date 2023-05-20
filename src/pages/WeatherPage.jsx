@@ -110,6 +110,7 @@ const WeatherPage = () => {
 
       console.log(responseData);
       for (const data of responseData) {
+        console.log(data.dt_txt);
         const date = new Date(data.dt_txt);
         const dayOfWeek = date.toLocaleString("en-US", options);
 
@@ -119,6 +120,12 @@ const WeatherPage = () => {
         }
         if (index === -1) continue;
         if (index == 5) break;
+
+        console.log(
+          dayOfWeek,
+          data.weather[0].main,
+          data.main.temp_min - 273.15
+        );
 
         newForecastData[index] = {
           id: index,
