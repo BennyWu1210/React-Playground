@@ -1,0 +1,163 @@
+.weather-container {
+    width: 100vw;
+    height: 100vh;
+    background-size: cover;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#weather-section1 {
+    position: relative;
+    flex: 1;
+    height: 75%;
+    margin: 5vw;
+    min-height: 800px;
+}
+
+#weather-section2 {
+    position: relative;
+    flex: 1.5;
+    height: 75%;
+    margin: 5vw;
+    min-height: 800px;
+}
+
+.weather-background, .weather-card {
+    position: absolute;
+    top: 7vh;
+    height: 80%;
+    width: 100%;
+}
+
+.weather-background {
+    background-color: #3A405A;
+    mix-blend-mode: multiply;
+    opacity: 0.6;
+    backdrop-filter: blur(2px);
+    border-radius: 30px;
+}
+
+.weather-card {    
+    color: var(--white);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.curday-city {
+    font-weight: 700;
+    font-size: 35px;
+}
+
+.curday-temp {
+    font-weight: 700;
+    font-size: 80px;
+    margin: 30px 0 30px;
+}
+
+.curday-symbol img {
+    height: 100px;
+    margin-bottom: 50px;
+}
+
+.curday-stats {
+    width: 80%;
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 20px;
+    justify-content: space-around;
+}
+
+.curday-stats {
+    font-size: 16px;
+    font-weight: 100;
+}
+
+.curday-stats h4{
+    margin: 5px 0 5px;
+}
+
+.curday-stats-title > span {
+    display: inline-block;
+    width: 100%;
+} 
+
+.curday-stats-title > img {
+    position:absolute;
+    height: 20px;
+    margin-left: 4px;
+}
+
+#weather-section2 h3 {
+    position: relative; 
+    align-self: baseline;
+    font-size: 25px;
+    margin-left: 10%;
+    margin-bottom: 10%;
+}
+
+.weather-form, .weather-form-background {
+    position: absolute;
+    height: 45px;
+    width: 100%;
+}
+
+.weather-form-background {
+    background-color: var(--delft-blue);
+    mix-blend-mode: multiply;
+    opacity: 0.6;
+    backdrop-filter: blur(2px);
+    border-radius: 30px;
+}
+
+.weather-form > form {
+    height: 100%;
+    width: 100%;
+}
+
+.weather-form input {
+    margin-left: 18px;
+    height: 100%;
+    width: 100%;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    font-size: large;
+    color: var(--white);
+}
+
+@media (min-width: 1600px) {
+    
+    #weather-section1 {
+        margin-left: 10vw;
+        margin-right: 5vw;
+    }
+    #weather-section2 {
+        margin-left: 5vw;
+        margin-right: 10vw;
+    }
+}
+
+
+/* Remove the forecast part when there is not enough space */
+/* Add a scroll feature in this case */
+@media (max-width: 1050px) {
+    .curday-temp {
+        font-weight: 700;
+        font-size: 70px;
+    }
+
+    #weather-section2 {
+        display: none;
+    }
+
+    .curday-city {
+        font-size: 28px;
+    }
+
+
+}

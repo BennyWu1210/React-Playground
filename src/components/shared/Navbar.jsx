@@ -22,6 +22,9 @@ const Navbar = () => {
         <Link className="nav-link" to="/fun-fact-generator">
           Fun Fact Generator
         </Link>
+        <Link className="nav-link" to="/weather-app">
+          Weather App
+        </Link>
       </div>
     </div>
   );

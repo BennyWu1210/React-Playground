@@ -1,0 +1,64 @@
+.forecast-wrapper {
+    height: 65px;
+    width: 100%;
+    margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.false.forecast-wrapper::after {
+    content: "";
+    height: 1px;
+    margin-top: 10px;
+}
+
+.true.forecast-wrapper::after {
+    content: "";
+    width: 80%;
+    height: 1px;
+    margin-top: 10px;
+    border: 0 solid var(--powder-blue);
+    background-color: var(--powder-blue);
+    opacity: 50%;
+    align-self: center;
+}
+
+.forecast-container {
+    width: 80%;
+    display: flex;
+    align-items: center;
+    font-size: 19px;
+}
+
+.forecast-container span {
+    font-weight: 200;
+}
+
+
+.forecast-day {
+    width: 20%;
+}
+
+.forecast-type {
+    width: 35%;
+    display: flex;
+    align-items: center;
+    margin-left: 20%
+}
+
+.forecast-type > img {
+    height: 40px;
+    margin: 0 15px 0 15px;
+    align-self: center;
+}
+
+.forecast-type > span {
+    font-weight: 600;
+}
+
+.forecast-temp {
+    width: 25%;
+    text-align: end;
+}
