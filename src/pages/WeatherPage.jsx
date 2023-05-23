@@ -193,7 +193,7 @@ const WeatherPage = () => {
 
   const setBackgroundImage = async (place) => {
     const location = place.name ? place.name : place.formatted_address;
-    setUrl(`https://source.unsplash.com/1600x900/?${location.split(",")[0]}`);
+    setUrl(`https://source.unsplash.com/1600x900/?${location.split(",")[0]},night`);
   };
 
   return (

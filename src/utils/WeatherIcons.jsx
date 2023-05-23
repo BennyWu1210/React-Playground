@@ -1,7 +1,7 @@
 // Import weather icons to represent the weather type
 import CloudIcon from "../assets/icons/weatherIcons/clouds.png";
 import ThunderIcon from "../assets/icons/weatherIcons/thunderstorm.png";
-import RainIcon from "../assets/icons/weatherIcons/clouds.png";
+import RainIcon from "../assets/icons/weatherIcons/rain.png";
 import DrizzleIcon from "../assets/icons/weatherIcons/drizzle.png";
 import SnowIcon from "../assets/icons/weatherIcons/snow.png";
 import SunIcon from "../assets/icons/weatherIcons/sun.png";

@@ -2,6 +2,7 @@
     height: 100vw;
     display: flex;
     justify-content: center;
+    background-size: cover;
 }
 
 .home-title {
