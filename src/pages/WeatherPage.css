@@ -1,7 +1,7 @@
 .weather-container {
-    width: 100vw;
-    height: 100vh;
+    height: max(100vh, 1000px);
     background-size: cover;
+    background-attachment: fixed;
 
     display: flex;
     justify-content: center;
@@ -13,6 +13,8 @@
     flex: 1;
     height: 85%;
     margin: 5vw;
+    overflow-y: auto;
+    min-height: 700px;
 }
 
 #weather-section2 {
@@ -20,11 +22,12 @@
     flex: 1.5;
     height: 85%;
     margin: 5vw;
+    overflow-y: auto;
 }
 
 .weather-background, .weather-card {
     position: absolute;
-    top: 7vh;
+    top: max(7vh, 70px);
     height: 80%;
     width: 100%;
 }
@@ -115,6 +118,17 @@
 .weather-form > form {
     height: 100%;
     width: 100%;
+}
+
+.weather-form.false::after {
+    content: "Please enter a valid city name";
+    color: red;
+    font-weight: 500;
+    margin: 0 0 0 18px;
+}
+
+.weather-form.true::after {
+    content: "";
 }
 
 .weather-form input {

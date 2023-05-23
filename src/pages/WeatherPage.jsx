@@ -14,6 +14,7 @@ import Autocomplete from "react-google-autocomplete";
 
 import { getIcons } from "../utils/WeatherIcons";
 import moment from "moment";
+import { set } from "../../node_modules/moment/src/lib/locale/set";
 
 const WeatherPage = () => {
   const [url, setUrl] = useState(
@@ -38,6 +39,8 @@ const WeatherPage = () => {
     { id: 3, day: "", type: "", range: [100, -100] },
     { id: 4, day: "", type: "", range: [100, -100] },
   ]);
+
+  const [correctInput, setCorrectInput] = useState(true);
 
   useEffect(() => {
     // Call OpenWeather API
@@ -110,10 +113,8 @@ const WeatherPage = () => {
         { id: 4, day: "", type: "", range: [100, -100] },
       ];
 
-      console.log(responseData);
       for (const data of responseData) {
         const date_txt = data.dt_txt.split(" ");
-        console.log(date_txt[0] + "T" + date_txt[1]);
         const date = new Date(date_txt[0] + "T" + date_txt[1]);
         const dayOfWeek = moment(date).format("dddd");
 
@@ -123,12 +124,6 @@ const WeatherPage = () => {
         }
         if (index === -1) continue;
         if (index == 5) break;
-
-        console.log(
-          dayOfWeek,
-          data.weather[0].main,
-          data.main.temp_min - 273.15
-        );
 
         newForecastData[index] = {
           id: index,
@@ -157,9 +152,6 @@ const WeatherPage = () => {
   const submitCity = async (place) => {
     try {
       if (place) {
-        // Reset background Image
-        setBackgroundImage(place);
-
         // Get latitude and longitude
         const [latitude, longitude] = await getLongLat(place);
 
@@ -167,6 +159,11 @@ const WeatherPage = () => {
         const response = await fetch(
           `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${process.env.REACT_APP_OPENWEATHER_API_KEY}`
         ).then((response) => response.json());
+
+        if (response.cod === "404") {
+          setCorrectInput(false);
+          return;
+        }
 
         const newWeatherData = {
           city: response.name,
@@ -183,17 +180,34 @@ const WeatherPage = () => {
           ],
         };
 
+        // Reset background Image
+        setBackgroundImage(place);
+
+        // Update weather data
         setWeatherData(newWeatherData);
+        setCorrectInput(true);
+
+        // Update forecast data
         updateForecast(latitude, longitude);
       }
     } catch (err) {
+      setCorrectInput(false);
+      setWeatherData((prevData) => {
+        return { ...prevData, city: "Incorrect city!" };
+      });
+
       console.log("Incorrect city!");
     }
   };
 
   const setBackgroundImage = async (place) => {
-    const location = place.name ? place.name : place.formatted_address;
-    setUrl(`https://source.unsplash.com/1600x900/?${location.split(",")[0]},night`);
+    const location = (place.name ? place.name : place.formatted_address)
+      .split(",")[0]
+      .split(" ")
+      .join("");
+
+    console.log("location: ", location);
+    setUrl(`https://source.unsplash.com/1600x900/?${location},night,stars`);
   };
 
   return (
@@ -204,7 +218,7 @@ const WeatherPage = () => {
       {/* TODO: A better looking navbar */}
       <div id="weather-section1">
         <div className="weather-form-background"></div>
-        <div className="weather-form" action="">
+        <div className={`weather-form ${correctInput}`} action="">
           <Autocomplete
             apiKey={process.env.REACT_APP_GOOGLEMAPS_API_KEY}
             onPlaceSelected={async (place) => await submitCity(place)}
