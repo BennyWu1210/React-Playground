@@ -120,6 +120,17 @@
     width: 100%;
 }
 
+.weather-form.false::after {
+    content: "Please enter a valid city name";
+    color: red;
+    font-weight: 500;
+    margin: 0 0 0 18px;
+}
+
+.weather-form.true::after {
+    content: "";
+}
+
 .weather-form input {
     margin-left: 18px;
     height: 100%;
