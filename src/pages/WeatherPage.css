@@ -11,7 +11,7 @@
 #weather-section1 {
     position: relative;
     flex: 1;
-    height: 75%;
+    height: 85%;
     margin: 5vw;
     overflow-y: auto;
     min-height: 700px;
@@ -20,7 +20,7 @@
 #weather-section2 {
     position: relative;
     flex: 1.5;
-    height: 75%;
+    height: 85%;
     margin: 5vw;
     overflow-y: auto;
 }
@@ -88,7 +88,7 @@
 } 
 
 .curday-stats-title > img {
-    position:absolute;
+    position: absolute;
     height: 20px;
     margin-left: 4px;
 }

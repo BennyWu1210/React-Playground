@@ -6,7 +6,6 @@
 }
 
 .nav-links {
-    background-color: antiquewhite;
     display: flex;
     justify-content: space-around;
     width: 100%;
