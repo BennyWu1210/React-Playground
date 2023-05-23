@@ -14,7 +14,7 @@ import Autocomplete from "react-google-autocomplete";
 
 import { getIcons } from "../utils/WeatherIcons";
 import moment from "moment";
-import { set } from "../../node_modules/moment/src/lib/locale/set";
+import ThemeSwitch from "../components/shared/ThemeSwitch";
 
 const WeatherPage = () => {
   const [url, setUrl] = useState(
@@ -41,6 +41,12 @@ const WeatherPage = () => {
   ]);
 
   const [correctInput, setCorrectInput] = useState(true);
+  const [mode, setMode] = useState("light"); 
+
+  const setTheme = () => {
+    setBackgroundImage({name: weatherData.city});
+    setMode(prevMode => prevMode === "light" ? "dark" : "light");
+  }
 
   useEffect(() => {
     // Call OpenWeather API
@@ -100,7 +106,6 @@ const WeatherPage = () => {
       const responseData = response.list;
 
       const currentDate = new Date();
-      const options = { weekday: "long" };
       // let currentDay = currentDate.toLocaleString("en-US", options);
       let currentDay = moment(currentDate).format("dddd");
 
@@ -123,7 +128,7 @@ const WeatherPage = () => {
           index++;
         }
         if (index === -1) continue;
-        if (index == 5) break;
+        if (index === 5) break;
 
         newForecastData[index] = {
           id: index,
@@ -204,10 +209,18 @@ const WeatherPage = () => {
     const location = (place.name ? place.name : place.formatted_address)
       .split(",")[0]
       .split(" ")
-      .join("");
+      .join(",");
 
     console.log("location: ", location);
-    setUrl(`https://source.unsplash.com/1600x900/?${location},night,stars`);
+
+    console.log("mode: ", mode);
+    if (mode === "dark") {
+      setUrl(`https://source.unsplash.com/1600x900/?night`);
+    }
+    else {
+      setUrl(`https://source.unsplash.com/1600x900/?${location}`);
+    }
+    
   };
 
   return (
@@ -215,6 +228,7 @@ const WeatherPage = () => {
       className="weather-container"
       style={{ backgroundImage: `url(${url})` }}
     >
+      <ThemeSwitch mode={mode} setTheme={setTheme}/>
       {/* TODO: A better looking navbar */}
       <div id="weather-section1">
         <div className="weather-form-background"></div>
@@ -262,6 +276,7 @@ const WeatherPage = () => {
         </div>
       </div>
 
+      
       <div id="weather-section2">
         <div className="weather-background"></div>
         <div className="weather-card" id="weather-forecast">
