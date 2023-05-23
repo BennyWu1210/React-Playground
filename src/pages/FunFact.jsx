@@ -2,6 +2,7 @@ import "./FunFact.css";
 import Navbar from "../components/shared/Navbar";
 import { useState } from "react";
 import axios from "axios";
+import Button from "../components/shared/Button";
 
 const FunFact = () => {
   const [result, setResult] = useState('""');
@@ -43,7 +44,7 @@ const FunFact = () => {
         <h2>{result}</h2>
       </div>
       <div className="fun-button">
-        <button onClick={onSubmit}>Generate a fun fact</button>
+        <Button onSubmit={onSubmit}/>
       </div>
     </div>
   );
