@@ -1,0 +1,16 @@
+.switch-container {
+    position:fixed;
+    top: 5px;
+    right: 30px;
+    z-index: 9999;
+    opacity: 70%;
+}
+
+.switch-container:hover {
+    opacity: 100%;
+}
+
+
+.switch-container img{
+    height: 60px;
+}
