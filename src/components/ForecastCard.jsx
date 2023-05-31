@@ -1,6 +1,6 @@
 import React from "react";
 import "./ForecastCard.css";
-import { getIcons } from "../utils/WeatherIcons";
+import { getIcons } from "../utils/weather-icons";
 // This is a placeholder
 
 const ForecastCard = ({ day, type, highest, lowest, hasLine }) => {

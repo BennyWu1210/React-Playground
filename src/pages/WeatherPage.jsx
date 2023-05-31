@@ -12,7 +12,7 @@ import LowHighIcon from "../assets/icons/Low-high.png";
 // autocomplete API to get city name
 import Autocomplete from "react-google-autocomplete";
 
-import { getIcons } from "../utils/WeatherIcons";
+import { getIcons } from "../utils/weather-icons";
 import moment from "moment";
 import ThemeSwitch from "../components/shared/ThemeSwitch";
 
