@@ -25,6 +25,9 @@ const Navbar = () => {
         <Link className="nav-link" to="/weather-app">
           Weather App
         </Link>
+        <Link className="nav-link" to="/food-ordering">
+          Food Ordering
+        </Link>
       </div>
     </div>
   );
