@@ -41,12 +41,12 @@ const WeatherPage = () => {
   ]);
 
   const [correctInput, setCorrectInput] = useState(true);
-  const [mode, setMode] = useState("light"); 
+  const [mode, setMode] = useState("light");
 
   const setTheme = () => {
-    setBackgroundImage({name: weatherData.city});
-    setMode(prevMode => prevMode === "light" ? "dark" : "light");
-  }
+    setBackgroundImage({ name: weatherData.city });
+    setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
+  };
 
   useEffect(() => {
     // Call OpenWeather API
@@ -215,12 +215,11 @@ const WeatherPage = () => {
 
     console.log("mode: ", mode);
     if (mode === "dark") {
+      // need to make this random
       setUrl(`https://source.unsplash.com/1600x900/?night`);
-    }
-    else {
+    } else {
       setUrl(`https://source.unsplash.com/1600x900/?${location}`);
     }
-    
   };
 
   return (
@@ -228,7 +227,7 @@ const WeatherPage = () => {
       className="weather-container"
       style={{ backgroundImage: `url(${url})` }}
     >
-      <ThemeSwitch mode={mode} setTheme={setTheme}/>
+      <ThemeSwitch mode={mode} setTheme={setTheme} />
       {/* TODO: A better looking navbar */}
       <div id="weather-section1">
         <div className="weather-form-background"></div>
@@ -276,7 +275,6 @@ const WeatherPage = () => {
         </div>
       </div>
 
-      
       <div id="weather-section2">
         <div className="weather-background"></div>
         <div className="weather-card" id="weather-forecast">
