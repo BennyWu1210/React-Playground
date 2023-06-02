@@ -1,0 +1,20 @@
+.mealitem-form {
+    text-align: right;
+}
+
+.mealitem-form button {
+    font: inherit;
+    cursor: pointer;
+    background-color: var(--champagne-pink);
+    border: 1px solid var(--champagne-pink);
+    color: black;
+    padding: 0.25rem 2rem;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.mealitem-form button:hover,
+.mealitem-form button:active {
+    background-color: #ccc;
+    border-color: #ccc;
+}
