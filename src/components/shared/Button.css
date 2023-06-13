@@ -1,14 +1,12 @@
 .button-container {
-    height: 50px;
-    width: 220px;
     border-radius: 75px;
     display: flex;
     justify-content: center;
     align-items: center;
     color: var(--white);
-    background-color: var(--delft-blue);
 }
 
-.button-container:hover {
-    background-color: var(--powder-blue);
+.button-container:hover, .button-container:focus {
+    /* background-color: var(--powder-blue) !important; */
+    opacity:90%;
 }

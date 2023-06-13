@@ -44,7 +44,16 @@ const FunFact = () => {
         <h2>{result}</h2>
       </div>
       <div className="fun-button">
-        <Button onSubmit={onSubmit}/>
+        <Button
+          onSubmit={onSubmit}
+          height="50px"
+          width="220px"
+          color="delft-blue"
+          border="delft-blue"
+          hoverColor="powder-blue"
+        >
+          <span>Click me!!</span>
+        </Button>
       </div>
     </div>
   );
