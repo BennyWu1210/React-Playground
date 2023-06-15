@@ -95,11 +95,11 @@
 }
 
 @media (max-width: 850px) {
-    .login-styles {
+    .auth-styles {
         display: none;
     }
 
-    .login-options {
+    .auth-options {
         width: 100%;
     }
 }
