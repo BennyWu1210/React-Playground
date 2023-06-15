@@ -3,6 +3,7 @@ import Homepage from "./pages/Homepage";
 import FunFact from "./pages/FunFact";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { isMobile } from "react-device-detect";
 import WeatherPage from "./pages/WeatherPage";
 import FoodPage from "./pages/FoodPage";
 import LoginPage from "./pages/HouseChat/LoginPage";
@@ -22,6 +23,18 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  if (isMobile) {
+    return (
+      <>
+        <h3>Bummer..😔</h3>
+        <p>
+          Please go access this on a computer! The styling is somewhat off on a
+          mobile phone so I am disabling it hehe. Didn't get a chance to fix it
+          yet..🫢 unless you're down to help me out!! Love ya :)
+        </p>
+      </>
+    );
+  }
   return <RouterProvider router={router} />;
 }
 
