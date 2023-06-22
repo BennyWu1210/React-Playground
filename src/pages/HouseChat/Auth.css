@@ -5,6 +5,7 @@
     justify-content: center;
     align-items: center;
     overflow-y: auto;
+    flex-direction: column;
 }
 
 .auth-container.sign-in {
@@ -85,6 +86,7 @@
     flex-direction: column;
     height: 100px;
 }
+
 .auth-control > input {
     height: 50px;
     width: 330px;
@@ -92,6 +94,7 @@
     border: solid 1px var(--delft-blue);
     padding: 0 20px;
     font-size: 18px;
+    margin-top: 5px;
 }
 
 @media (max-width: 850px) {

@@ -1,8 +1,32 @@
 import "./ChatPage.css";
 import Avatar from "../../assets/Doraemon.png";
 import Button from "../../components/shared/Button";
+import { Link, useLocation } from "react-router-dom";
+import LoginPage from "./LoginPage";
 
-const ChatPage = ({ user }) => {
+const ChatPage = () => {
+  const location = useLocation();
+
+  if (!location.state) {
+    return (
+      <div
+        style={{
+          height: "100vh",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          fontWeight: "500",
+          fontSize: "30px",
+        }}
+      >
+        <p>You're not logged in!! But good try :)</p>
+        <Link to="/chat/login">Here's the Login Page</Link>
+      </div>
+    );
+  }
+  const user = location.state.user;
+
   const userInfoText = (
     <div className="user-info-text">
       <div className="user-avatar">
@@ -13,7 +37,7 @@ const ChatPage = ({ user }) => {
         <h2>{user.name}</h2>
       </div>
       <div className="user-stats">
-        <h4>Statistics</h4>
+        <h4>Statistics:</h4>
         <span>Total Posts: {user.totalPosts} </span>
         <span>Registered For: {user.totalDays} Days </span>
       </div>
