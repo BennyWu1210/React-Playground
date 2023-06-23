@@ -44,15 +44,14 @@ const LoginPage = ({ history }) => {
         console.log("NOT VALID USER!");
       } else {
         if (userData.password == passwordInput) {
-          console.log("HUH");
+          console.log(userData);
           navigate("/chat", {
             state: {
               user: {
-                name: "Bruh",
-                totalPosts: 1,
-                totalDays: 3,
-                avatarPath: "./assets/Doraemon.png",
-                posts: [],
+                name: nameInput,
+                totalPosts: userData.totalPosts,
+                totalDays: userData.dateRegistered,
+                avatarPath: userData.avatarPath,
               },
             },
           });
