@@ -4,9 +4,10 @@ import PlantImage from "../../assets/Plant.png";
 import GoogleIcon from "../../assets/Google-icon.png";
 import Button from "../../components/shared/Button";
 import { getDateString } from "../../utils/dateUtils";
-import { Link } from "react-router-dom";
-import { database } from "../../utils/firebase";
-import { ref, set } from "firebase/database";
+import { ref, set, onValue } from "firebase/database";
+import { database, auth } from "../../utils/firebase";
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 const googleButton = (
   <div
@@ -25,14 +26,68 @@ const googleButton = (
       }}
     />
     <span style={{ position: "absolute", left: "100px", top: "-12px" }}>
-      Sign up with Google
+      Sign in with Google
     </span>
   </div>
 );
 
+export const saveUserData = (username, password) => {
+  // Make sure the username doesn't already exists
+  const userRef = ref(database, "chat/users/" + username);
+
+  set(userRef, {
+    password: password,
+    dateRegistered: getDateString(),
+    avatarPath: "Doraemon.png", // default
+    totalPosts: 0,
+  })
+    .then(() => console.log("Data saved successfully!"))
+    .then(() => alert("Sign up successful!"))
+    .catch(() => console.log("Encountered error"));
+};
+
 const RegistrationPage = () => {
+  const navigate = useNavigate();
   const [nameInput, setNameInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
+
+  const onGoogleSignIn = (e) => {
+    e.preventDefault();
+
+    const provider = new GoogleAuthProvider();
+
+    console.log(auth);
+    signInWithPopup(auth, provider).then((result) => {
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential.accessToken;
+      const user = result.user;
+      const username =
+        user.displayName.split(" ")[0] + "_" + token.substring(0, 4);
+
+      console.log(username);
+
+      const userDataRef = ref(database, "chat/users/" + username);
+      onValue(userDataRef, (snapshot) => {
+        const userData = snapshot.val();
+
+        if (!userData) {
+          saveUserData(username, "NO_PASSWORD");
+          alert("Sign up successful");
+        } else {
+          navigate("/chat", {
+            state: {
+              user: {
+                name: username,
+                totalPosts: userData.totalPosts,
+                dateRegistered: userData.dateRegistered,
+                avatarPath: userData.avatarPath,
+              },
+            },
+          });
+        }
+      });
+    });
+  };
 
   const onRegisterClicked = (e) => {
     e.preventDefault();
@@ -46,20 +101,6 @@ const RegistrationPage = () => {
 
   const handlePasswordChange = (e) => {
     setPasswordInput(e.target.value);
-  };
-
-  const saveUserData = (username, password) => {
-    // Make sure the username doesn't already exists
-    const userRef = ref(database, "chat/users/" + username);
-
-    set(userRef, {
-      password: password,
-      dateRegistered: getDateString(),
-      avatarPath: "./assets/Doraemon.png", // default
-      totalPosts: 0,
-    })
-      .then(() => console.log("Data saved successfully!"))
-      .catch(() => console.log("Encountered error"));
   };
 
   return (
@@ -78,6 +119,7 @@ const RegistrationPage = () => {
               width="330px"
               color="black"
               border="delft-blue"
+              onSubmit={onGoogleSignIn}
             >
               {googleButton}
             </Button>

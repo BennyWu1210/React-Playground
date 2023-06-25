@@ -1,19 +1,61 @@
 import "./ChatPage.css";
-import Avatar from "../../assets/Doraemon.png";
+import AddIcon from "../../assets/add-button.png";
 import Button from "../../components/shared/Button";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import LoginPage from "./LoginPage";
 import { useEffect, useState } from "react";
 import { database, storage } from "../../utils/firebase";
-import { ref, get, onValue } from "firebase/database";
-import { ref as refStorage, getDownloadURL } from "firebase/storage";
+import { ref, get, onValue, set } from "firebase/database";
+import {
+  ref as refStorage,
+  getDownloadURL,
+  uploadBytes,
+} from "firebase/storage";
+
+import { getDateDiff } from "../../utils/dateUtils";
 
 const ChatPage = () => {
+  const [profileURL, setProfileURL] = useState("");
   const [posts, setPosts] = useState([]);
   const [user, setUser] = useState({});
 
   const navigate = useNavigate();
   const location = useLocation();
+
+  const handleProfileUpload = (event) => {
+    const file = event.target.files[0];
+    const userRef = ref(database, "chat/users/" + user.name);
+    const fileName = file.name.split(".");
+    const newFile = new File(
+      [file],
+      fileName[0] + Math.floor(Math.random() * 1000) + "." + fileName[1]
+    );
+    const storageRef = refStorage(
+      storage,
+      "gs://react-playground-387214.appspot.com/ProfilePics/" + newFile.name
+    );
+
+    uploadBytes(storageRef, newFile, { contentType: "image/" + fileName[1] })
+      .then(() => {
+        console.log("UPLOADED SUCCESSFULLY!");
+      })
+      .then(() => {
+        onValue(userRef, (snapshot) => {
+          const userInfo = snapshot.val();
+          const newUserInfo = { ...userInfo, avatarPath: newFile.name };
+          set(userRef, newUserInfo).then(() => {
+            setUser((prevState) => {
+              return { ...prevState, avatarPath: newUserInfo.avatarPath };
+            });
+            console.log("SUCCESSFULLY SET NEW PROFILE");
+          });
+        });
+      })
+      .then(() => {
+        getDownloadURL(storageRef).then((url) => {
+          setProfileURL(url);
+        });
+      });
+  };
 
   useEffect(() => {
     // retrieve user info
@@ -41,20 +83,17 @@ const ChatPage = () => {
     // retrieve chat thread
 
     console.log("TRIGGERED");
-    
+
     const postRef = ref(database, "chat/posts");
 
     get(postRef).then((snapshot) => {
       if (snapshot.exists()) {
         const chatData = snapshot.val();
 
-        setPosts([]);
-        console.log("data", chatData);
         for (const key of Object.keys(chatData)) {
           const post = chatData[key];
 
           const userRef = ref(database, "chat/users/" + post.user);
-          console.log("USERRR:", userRef);
 
           onValue(userRef, (snapshot) => {
             const userData = snapshot.val();
@@ -91,10 +130,42 @@ const ChatPage = () => {
     });
   }, []);
 
+  useEffect(() => {
+    if (user.avatarPath != null) {
+      console.log("WAYYY");
+      // retrive profile pic
+      const userRef = ref(database, "chat/users/" + user.name);
+
+      onValue(userRef, (snapshot) => {
+        const data = snapshot.val();
+        console.log("Ddd", user);
+        const storageRef = refStorage(
+          storage,
+          "gs://react-playground-387214.appspot.com/ProfilePics/" +
+            data.avatarPath
+        );
+
+        getDownloadURL(storageRef).then((url) => {
+          setProfileURL(url);
+        });
+      });
+    }
+  }, [user]);
+
   const userInfoText = (
     <div className="user-info-text">
       <div className="user-avatar">
-        <img src={Avatar} alt="Profile picture" />
+        <img src={profileURL} alt="Profile picture" />
+        <form>
+          <label for="profile-upload" />
+          <input
+            id="profile-upload"
+            type="file"
+            accept="image/*"
+            onChange={handleProfileUpload}
+          />
+          <img src={AddIcon} />
+        </form>
       </div>
       <div className="user-name">
         <span>Welcome back,</span>
@@ -103,9 +174,23 @@ const ChatPage = () => {
       <div className="user-stats">
         <h4>Statistics:</h4>
         <span>Total Posts: {user.totalPosts} </span>
-        <span>Registered For: {user.totalDays} Days </span>
+        <span>
+          Registered For:{" "}
+          {getDateDiff(new Date(), new Date(user.dateRegistered))} Days{" "}
+        </span>
       </div>
       <div className="user-logout">
+        <Button
+          height="40px"
+          width="128px"
+          color="green"
+          border="black solid 0.5px"
+          onSubmit={(e) => {
+            alert("Post");
+          }}
+        >
+          Post
+        </Button>
         <Button
           height="40px"
           width="128px"

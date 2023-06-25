@@ -56,7 +56,7 @@ const router = createBrowserRouter([
   { path: "/food-ordering", element: <FoodPage /> },
   { path: "/chat/login", element: <LoginPage /> },
   { path: "/chat/registration", element: <RegistrationPage /> },
-  { path: "/chat", element: <ChatPage user={DUMMY_USER} /> }, // Dummy Data
+  { path: "/chat", element: <ChatPage /> }, // Dummy Data
 ]);
 
 function App() {

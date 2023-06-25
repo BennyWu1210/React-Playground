@@ -1,11 +1,13 @@
 import "./Auth.css";
+import { useState } from "react";
 import PlantImage from "../../assets/Flower.png";
 import GoogleIcon from "../../assets/Google-icon.png";
 import Button from "../../components/shared/Button";
 import { Link, redirect, useNavigate } from "react-router-dom";
-import { database } from "../../utils/firebase";
+import { database, auth } from "../../utils/firebase";
 import { onValue, ref } from "firebase/database";
-import { useState } from "react";
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { saveUserData } from "./RegistrationPage";
 
 const googleButton = (
   <div
@@ -29,10 +31,48 @@ const googleButton = (
   </div>
 );
 
-const LoginPage = ({ history }) => {
+const LoginPage = () => {
   const navigate = useNavigate();
   const [nameInput, setNameInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
+
+  const onGoogleSignIn = (e) => {
+    e.preventDefault();
+
+    const provider = new GoogleAuthProvider();
+
+    console.log(auth);
+    signInWithPopup(auth, provider).then((result) => {
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential.accessToken;
+      const user = result.user;
+      const username =
+        user.displayName.split(" ")[0] + "_" + token.substring(0, 4);
+
+      console.log(username);
+
+      const userDataRef = ref(database, "chat/users/" + username);
+      onValue(userDataRef, (snapshot) => {
+        const userData = snapshot.val();
+
+        if (!userData) {
+          saveUserData(username, "NO_PASSWORD");
+          alert("Sign up successful");
+        } else {
+          navigate("/chat", {
+            state: {
+              user: {
+                name: username,
+                totalPosts: userData.totalPosts,
+                dateRegistered: userData.dateRegistered,
+                avatarPath: userData.avatarPath,
+              },
+            },
+          });
+        }
+      });
+    });
+  };
 
   const onLoginClicked = async (e) => {
     e.preventDefault();
@@ -44,13 +84,12 @@ const LoginPage = ({ history }) => {
         console.log("NOT VALID USER!");
       } else {
         if (userData.password == passwordInput) {
-          console.log(userData);
           navigate("/chat", {
             state: {
               user: {
                 name: nameInput,
                 totalPosts: userData.totalPosts,
-                totalDays: userData.dateRegistered,
+                dateRegistered: userData.dateRegistered,
                 avatarPath: userData.avatarPath,
               },
             },
@@ -90,6 +129,7 @@ const LoginPage = ({ history }) => {
               width="330px"
               color="black"
               border="delft-blue"
+              onSubmit={onGoogleSignIn}
             >
               {googleButton}
             </Button>
