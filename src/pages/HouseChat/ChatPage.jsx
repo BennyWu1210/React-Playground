@@ -12,11 +12,14 @@ import {
 } from "firebase/storage";
 
 import { getDateDiff } from "../../utils/dateUtils";
+import PostPage from "./PostPage";
+import { getDateString } from "../../utils/dateUtils";
 
 const ChatPage = () => {
   const [profileURL, setProfileURL] = useState("");
   const [posts, setPosts] = useState([]);
   const [user, setUser] = useState({});
+  const [postVisible, setPostVisible] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -57,33 +60,49 @@ const ChatPage = () => {
       });
   };
 
-  useEffect(() => {
-    // retrieve user info
-    if (!location.state) {
-      return (
-        <div
-          style={{
-            height: "100vh",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            fontWeight: "500",
-            fontSize: "30px",
-          }}
-        >
-          <p>You're not logged in!! But good try :)</p>
-          <Link to="/chat/login">Here's the Login Page</Link>
-        </div>
-      );
-    }
+  const onSubmitPost = (input) => {
+    // update total posts
+    const userRef = ref(database, "chat/users/" + user.name);
 
-    setUser(location.state.user);
+    let updated = false;
+    onValue(userRef, (snapshot) => {
+      if (!updated) {
+        updated = true; // a simple and idiotic fix to the infinite loop
+        const userInfo = snapshot.val();
 
-    // retrieve chat thread
+        const newUserInfo = {
+          ...userInfo,
+          totalPosts: userInfo.totalPosts + 1,
+        };
 
-    console.log("TRIGGERED");
+        setUser((prevState) => {
+          return { ...prevState, totalPosts: prevState.totalPosts + 1 };
+        });
 
+        set(userRef, newUserInfo).then(() => {
+          console.log("SUCCESSFUL", newUserInfo);
+        });
+      }
+    });
+
+    console.log("SUBMITTED POST");
+    setUser((prevState) => {
+      return { ...prevState, totalPosts: prevState.totalPosts + 1 };
+    });
+
+    // update new post
+    const randomID = Math.floor(Math.random() * 1000000);
+    console.log("chat/posts/" + randomID);
+    const postRef = ref(database, "chat/posts/" + randomID);
+    const newPostInfo = { user: user.name, date: getDateString(), text: input };
+    set(postRef, newPostInfo).then(() => {
+      console.log("NEW POST SUCCESSFUL");
+    });
+
+    setPostVisible(false);
+  };
+
+  const retrivePosts = () => {
     const postRef = ref(database, "chat/posts");
 
     get(postRef).then((snapshot) => {
@@ -128,17 +147,51 @@ const ChatPage = () => {
         console.log("CANNOT FIND SNAPSHOT");
       }
     });
+  };
+  useEffect(() => {
+    // retrieve user info
+    if (!location.state) {
+      return (
+        <div
+          style={{
+            height: "100vh",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            fontWeight: "500",
+            fontSize: "30px",
+          }}
+        >
+          <p>You're not logged in!! But good try :)</p>
+          <Link to="/chat/login">Here's the Login Page</Link>
+        </div>
+      );
+    }
+
+    const userRef = ref(database, "chat/users/" + location.state.user.name);
+    onValue(userRef, (snapshot) => {
+      const data = snapshot.val();
+
+      console.log("DAAA", data);
+      setUser({ ...location.state.user, totalPosts: data.totalPosts });
+    });
+
+    // retrieve chat thread
+    console.log("TRIGGERED");
+
+    // retrieve posts
+    retrivePosts();
   }, []);
 
   useEffect(() => {
-    if (user.avatarPath != null) {
+    if (user.avatarPath != undefined) {
       console.log("WAYYY");
       // retrive profile pic
       const userRef = ref(database, "chat/users/" + user.name);
 
       onValue(userRef, (snapshot) => {
         const data = snapshot.val();
-        console.log("Ddd", user);
         const storageRef = refStorage(
           storage,
           "gs://react-playground-387214.appspot.com/ProfilePics/" +
@@ -154,6 +207,12 @@ const ChatPage = () => {
 
   const userInfoText = (
     <div className="user-info-text">
+      {postVisible && (
+        <PostPage
+          onClose={() => setPostVisible(false)}
+          onSubmitPost={onSubmitPost}
+        />
+      )}
       <div className="user-avatar">
         <img src={profileURL} alt="Profile picture" />
         <form>
@@ -186,7 +245,8 @@ const ChatPage = () => {
           color="green"
           border="black solid 0.5px"
           onSubmit={(e) => {
-            alert("Post");
+            e.preventDefault();
+            setPostVisible(true);
           }}
         >
           Post

@@ -7,7 +7,7 @@ const Backdrop = (props) => {
 
 const ModalOverlay = (props) => {
   return (
-    <div className="modal">
+    <div className="modal" style={{backgroundColor: props.color}}>
       {/* Need to write CSS for content */}
       <div className="modal-content">{props.children}</div>
     </div>
@@ -23,7 +23,7 @@ const Modal = (props) => {
         portalElement
       )}
       {ReactDOM.createPortal(
-        <ModalOverlay>{props.children}</ModalOverlay>,
+        <ModalOverlay {...props}>{props.children}</ModalOverlay>,
         portalElement
       )}
     </>
