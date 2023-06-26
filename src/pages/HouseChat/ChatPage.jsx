@@ -67,7 +67,6 @@ const ChatPage = () => {
   };
 
   const onSubmitPost = (input) => {
-
     // update total posts
     const userRef = ref(database, "chat/users/" + user.name);
 
@@ -119,11 +118,13 @@ const ChatPage = () => {
       }
     });
 
-    
     setPostVisible(false);
   };
 
   const retrievePosts = () => {
+    setPosts({});
+    setPostKeys([]);
+
     const postRef = ref(database, "chat/posts");
 
     get(postRef).then((snapshot) => {
@@ -134,7 +135,7 @@ const ChatPage = () => {
           console.log(key, postKeys);
           if (postKeys.includes(key)) continue;
           console.log("WENT THROUGH");
-          
+
           const post = chatData[key];
           console.log(post.user);
 
@@ -173,7 +174,6 @@ const ChatPage = () => {
               .catch((error) => {
                 console.log(error);
               });
-
           });
         }
       } else {
@@ -183,8 +183,6 @@ const ChatPage = () => {
   };
 
   useEffect(() => {
-
-    
     // retrieve user info
     if (!location.state) {
       return (
@@ -218,7 +216,6 @@ const ChatPage = () => {
 
     // retrieve posts
     retrievePosts();
-
   }, []);
 
   useEffect(() => {
@@ -287,6 +284,18 @@ const ChatPage = () => {
           }}
         >
           Post
+        </Button>
+        <Button
+          height="40px"
+          width="128px"
+          color="powder-blue"
+          border="black solid 0.5px"
+          onSubmit={(e) => {
+            e.preventDefault();
+            retrievePosts();
+          }}
+        >
+          Refresh
         </Button>
         <Button
           height="40px"
