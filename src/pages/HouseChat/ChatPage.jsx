@@ -17,7 +17,7 @@ import { getDateString } from "../../utils/dateUtils";
 
 const ChatPage = () => {
   const [profileURL, setProfileURL] = useState("");
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState({});
   const [postKeys, setPostKeys] = useState([]);
   const [user, setUser] = useState({});
   const [postVisible, setPostVisible] = useState(false);
@@ -43,15 +43,20 @@ const ChatPage = () => {
         console.log("UPLOADED SUCCESSFULLY!");
       })
       .then(() => {
-        onValue(userRef, (snapshot) => {
-          const userInfo = snapshot.val();
-          const newUserInfo = { ...userInfo, avatarPath: newFile.name };
-          set(userRef, newUserInfo).then(() => {
-            setUser((prevState) => {
-              return { ...prevState, avatarPath: newUserInfo.avatarPath };
+        let updated = false;
+        get(userRef).then((snapshot) => {
+          if (!updated) {
+            updated = true;
+
+            const userInfo = snapshot.val();
+            const newUserInfo = { ...userInfo, avatarPath: newFile.name };
+            set(userRef, newUserInfo).then(() => {
+              setUser((prevState) => {
+                return { ...prevState, avatarPath: newUserInfo.avatarPath };
+              });
+              console.log("SUCCESSFULLY SET NEW PROFILE");
             });
-            console.log("SUCCESSFULLY SET NEW PROFILE");
-          });
+          }
         });
       })
       .then(() => {
@@ -62,11 +67,12 @@ const ChatPage = () => {
   };
 
   const onSubmitPost = (input) => {
+
     // update total posts
     const userRef = ref(database, "chat/users/" + user.name);
 
     let updated = false;
-    onValue(userRef, (snapshot) => {
+    get(userRef).then((snapshot) => {
       if (!updated) {
         updated = true; // a simple and idiotic fix to the infinite loop
         const userInfo = snapshot.val();
@@ -80,63 +86,61 @@ const ChatPage = () => {
           return { ...prevState, totalPosts: prevState.totalPosts + 1 };
         });
 
-        set(userRef, newUserInfo).then(() => {
-          console.log("SUCCESSFUL", newUserInfo);
-        });
-      }
-    });
+        set(userRef, newUserInfo)
+          .then(() => {
+            console.log("SUCCESSFUL", newUserInfo);
+          })
+          .then(() => {
+            console.log("SUBMITTED POST");
 
-    console.log("SUBMITTED POST");
-    setUser((prevState) => {
-      return { ...prevState, totalPosts: prevState.totalPosts + 1 };
+            const postIDRef = ref(database, "chat/postID");
+
+            updated = false;
+            get(postIDRef).then((snapshot) => {
+              if (!updated) {
+                updated = true;
+                const value = snapshot.val();
+                set(postIDRef, +value - 1).then(() => {
+                  const postRef = ref(database, "chat/posts/" + (+value - 1));
+
+                  const newPostInfo = {
+                    user: user.name,
+                    date: getDateString(),
+                    text: input,
+                  };
+
+                  set(postRef, newPostInfo).then(() => {
+                    retrievePosts();
+                  });
+                });
+              }
+            });
+          });
+      }
     });
 
     
-    const postIDRef = ref(database, "chat/postID");
-
-    updated = false;
-    onValue(postIDRef, (snapshot) => {
-      if (!updated) {
-        updated = true;
-        const value = snapshot.val();
-        set(postIDRef, +value - 1).then(() => {
-
-          const postRef = ref(database, "chat/posts/" + (+value - 1));
-
-          const newPostInfo = {
-            user: user.name,
-            date: getDateString(),
-            text: input,
-          };
-
-          set(postRef, newPostInfo).then(() => {
-            retrievePosts();
-            console.log("NEW POST SUCCESSFUL");
-          });
-        });
-      }
-    });
-
     setPostVisible(false);
   };
 
   const retrievePosts = () => {
-    console.log("HEHHHHHHHHHH");
     const postRef = ref(database, "chat/posts");
 
     get(postRef).then((snapshot) => {
       if (snapshot.exists()) {
-        setPosts([]);
         const chatData = snapshot.val();
 
-        for (const key of Object.keys(chatData).sort()) {
-          console.log(postKeys + " LOL!" );
+        for (const key of Object.keys(chatData)) {
+          console.log(key, postKeys);
           if (postKeys.includes(key)) continue;
+          console.log("WENT THROUGH");
+          
           const post = chatData[key];
+          console.log(post.user);
 
           const userRef = ref(database, "chat/users/" + post.user);
 
-          onValue(userRef, (snapshot) => {
+          get(userRef).then((snapshot) => {
             const userData = snapshot.val();
 
             const profileRef = refStorage(
@@ -147,23 +151,29 @@ const ChatPage = () => {
 
             getDownloadURL(profileRef)
               .then((url) => {
-                setPosts((prevPost) => [
-                  ...prevPost,
-                  <div className="chat-post" id={post.user} key={key}>
+                const newPost = (
+                  <div className="chat-post" id={post.user} key={+key}>
                     <header>
                       <img src={url} alt="profile picture" />
                       <span className="post-user">{post.user}</span>
                       <span className="post-date">{post.date}</span>
                     </header>
                     <body>{post.text}</body>
-                  </div>,
-                ]);
+                  </div>
+                );
+
+                const stringKey = key.toString();
+                setPosts((prevPost) => {
+                  return { ...prevPost, [stringKey]: newPost };
+                });
+
                 setPostKeys((prevKeys) => [...prevKeys, key]);
               })
 
               .catch((error) => {
                 console.log(error);
               });
+
           });
         }
       } else {
@@ -173,6 +183,8 @@ const ChatPage = () => {
   };
 
   useEffect(() => {
+
+    
     // retrieve user info
     if (!location.state) {
       return (
@@ -194,7 +206,7 @@ const ChatPage = () => {
     }
 
     const userRef = ref(database, "chat/users/" + location.state.user.name);
-    onValue(userRef, (snapshot) => {
+    get(userRef).then((snapshot) => {
       const data = snapshot.val();
 
       console.log("DAAA", data);
@@ -206,6 +218,7 @@ const ChatPage = () => {
 
     // retrieve posts
     retrievePosts();
+
   }, []);
 
   useEffect(() => {
@@ -214,7 +227,7 @@ const ChatPage = () => {
       // retrive profile pic
       const userRef = ref(database, "chat/users/" + user.name);
 
-      onValue(userRef, (snapshot) => {
+      get(userRef).then((snapshot) => {
         const data = snapshot.val();
         const storageRef = refStorage(
           storage,
@@ -300,7 +313,10 @@ const ChatPage = () => {
         </div>
         <div className="chat-thread">
           <div className="chat-background" />
-          <div className="chat-thread-text">{posts}</div>
+
+          <div className="chat-thread-text">
+            {postKeys.sort().map((key) => posts[key])}
+          </div>
         </div>
       </div>
     </div>
