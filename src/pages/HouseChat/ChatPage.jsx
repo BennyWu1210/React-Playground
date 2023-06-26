@@ -18,9 +18,9 @@ import { getDateString } from "../../utils/dateUtils";
 const ChatPage = () => {
   const [profileURL, setProfileURL] = useState("");
   const [posts, setPosts] = useState([]);
+  const [postKeys, setPostKeys] = useState([]);
   const [user, setUser] = useState({});
   const [postVisible, setPostVisible] = useState(false);
-  const [postID, setPostID] = useState(9999999);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -126,12 +126,12 @@ const ChatPage = () => {
 
     get(postRef).then((snapshot) => {
       if (snapshot.exists()) {
+        setPosts([]);
         const chatData = snapshot.val();
 
-        for (const key of Object.keys(chatData)) {
-          if (key === "currentID") continue;
-          setPostID((prevID) => Math.min(prevID, +key));
-
+        for (const key of Object.keys(chatData).sort()) {
+          console.log(postKeys + " LOL!" );
+          if (postKeys.includes(key)) continue;
           const post = chatData[key];
 
           const userRef = ref(database, "chat/users/" + post.user);
@@ -158,6 +158,7 @@ const ChatPage = () => {
                     <body>{post.text}</body>
                   </div>,
                 ]);
+                setPostKeys((prevKeys) => [...prevKeys, key]);
               })
 
               .catch((error) => {
