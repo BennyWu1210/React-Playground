@@ -108,8 +108,9 @@ const ChatPage = () => {
             date: getDateString(),
             text: input,
           };
-          
+
           set(postRef, newPostInfo).then(() => {
+            retrievePosts();
             console.log("NEW POST SUCCESSFUL");
           });
         });
