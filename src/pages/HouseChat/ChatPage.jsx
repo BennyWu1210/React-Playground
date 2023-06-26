@@ -20,6 +20,7 @@ const ChatPage = () => {
   const [posts, setPosts] = useState([]);
   const [user, setUser] = useState({});
   const [postVisible, setPostVisible] = useState(false);
+  const [postID, setPostID] = useState(9999999);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -90,19 +91,36 @@ const ChatPage = () => {
       return { ...prevState, totalPosts: prevState.totalPosts + 1 };
     });
 
-    // update new post
-    const randomID = Math.floor(Math.random() * 1000000);
-    console.log("chat/posts/" + randomID);
-    const postRef = ref(database, "chat/posts/" + randomID);
-    const newPostInfo = { user: user.name, date: getDateString(), text: input };
-    set(postRef, newPostInfo).then(() => {
-      console.log("NEW POST SUCCESSFUL");
+    
+    const postIDRef = ref(database, "chat/postID");
+
+    updated = false;
+    onValue(postIDRef, (snapshot) => {
+      if (!updated) {
+        updated = true;
+        const value = snapshot.val();
+        set(postIDRef, +value - 1).then(() => {
+
+          const postRef = ref(database, "chat/posts/" + (+value - 1));
+
+          const newPostInfo = {
+            user: user.name,
+            date: getDateString(),
+            text: input,
+          };
+          
+          set(postRef, newPostInfo).then(() => {
+            console.log("NEW POST SUCCESSFUL");
+          });
+        });
+      }
     });
 
     setPostVisible(false);
   };
 
-  const retrivePosts = () => {
+  const retrievePosts = () => {
+    console.log("HEHHHHHHHHHH");
     const postRef = ref(database, "chat/posts");
 
     get(postRef).then((snapshot) => {
@@ -110,6 +128,9 @@ const ChatPage = () => {
         const chatData = snapshot.val();
 
         for (const key of Object.keys(chatData)) {
+          if (key === "currentID") continue;
+          setPostID((prevID) => Math.min(prevID, +key));
+
           const post = chatData[key];
 
           const userRef = ref(database, "chat/users/" + post.user);
@@ -148,6 +169,7 @@ const ChatPage = () => {
       }
     });
   };
+
   useEffect(() => {
     // retrieve user info
     if (!location.state) {
@@ -181,11 +203,11 @@ const ChatPage = () => {
     console.log("TRIGGERED");
 
     // retrieve posts
-    retrivePosts();
+    retrievePosts();
   }, []);
 
   useEffect(() => {
-    if (user.avatarPath != undefined) {
+    if (user.avatarPath != undefined && user.avatarPath != null) {
       console.log("WAYYY");
       // retrive profile pic
       const userRef = ref(database, "chat/users/" + user.name);
