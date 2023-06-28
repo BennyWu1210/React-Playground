@@ -7,7 +7,7 @@ const Homepage = () => {
     <div
       className="home-page"
       style={{
-        backgroundImage: "url(https://source.unsplash.com/1600x900/?view)",
+        backgroundImage: "url(https://www.meme-arsenal.com/memes/8f47c117b01db6df3360072581ea810c.jpg)",
       }}
     >
       <Navbar />
