@@ -33,7 +33,7 @@ const navVariants = {
 const linkVariants = {
   displayed: {
     opacity: 1,
-    trnasition: {
+    transition: {
       y: { stiffness: 1000, velocity: -100 },
     },
   },
@@ -48,13 +48,16 @@ const linkVariants = {
 
 const linksVariants = {
   displayed: {
+    y: 0,
     transition: {
       staggerChildren: 0.07,
       delayChildren: 0.2,
     },
   },
   closed: {
+    y: -1000,
     transition: {
+      delay: 0.5,
       staggerChildren: 0.05,
       staggerDirection: -1,
     },

@@ -45,7 +45,7 @@
     flex-direction: column;
     align-items: center;
     list-style: none;
-    
+    pointer-events: auto;
 }
 
 .nav-link {
