@@ -1,23 +1,56 @@
 .nav-container {
-    position: absolute;
-    width: 100%;
     display: flex;
-    top: 0px;
+    justify-content: center; 
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 100;
 }
+
+.nav-container button {
+    position: absolute;
+    border: none;
+    border-radius: 100%;
+    top: calc(10% - 35px);
+    left: calc(50% - 18px);
+    height: 70px;
+    width: 70px;
+    cursor: pointer;
+}
+
+.nav-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--white); 
+}
+
+.nav-container > ul {
+    position: absolute;
+    top: 15vw;
+    height: 50vw;
+    gap: 18px
+}
+
 
 .nav-links {
     display: flex;
-    justify-content: space-around;
-    width: 100%;
-}
-
-.nav-links.hidden {
-    display: none;
+    flex-direction: column;
+    align-items: center;
+    list-style: none;
+    
 }
 
 .nav-link {
-    font-size: larger;
+    cursor: pointer;
+    font-size: 28px;
+    font-weight: 400;
     text-decoration: none;
-    align-self: center;
+    color: var(--black)
 }
+
 

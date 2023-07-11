@@ -15,6 +15,7 @@ import Autocomplete from "react-google-autocomplete";
 import { getIcons } from "../utils/weather-icons";
 import moment from "moment";
 import ThemeSwitch from "../components/shared/ThemeSwitch";
+import Navbar from "../components/shared/Navbar";
 
 const WeatherPage = () => {
   const [url, setUrl] = useState(
@@ -227,6 +228,7 @@ const WeatherPage = () => {
       className="weather-container"
       style={{ backgroundImage: `url(${url})` }}
     >
+      <Navbar /> 
       <ThemeSwitch mode={mode} setTheme={setTheme} />
       {/* TODO: A better looking navbar */}
       <div id="weather-section1">

@@ -17,6 +17,7 @@ const FoodPage = () => {
 
   return (
     <CartProvider>
+      <Navbar />
       {cartIsShown && <Cart onClose={hideCartHandler} />}
       <Header onShowCart={showCartHandler} />
       <main>
