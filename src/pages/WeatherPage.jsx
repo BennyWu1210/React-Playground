@@ -230,7 +230,6 @@ const WeatherPage = () => {
     >
       <Navbar /> 
       <ThemeSwitch mode={mode} setTheme={setTheme} />
-      {/* TODO: A better looking navbar */}
       <div id="weather-section1">
         <div className="weather-form-background"></div>
         <div className={`weather-form ${correctInput}`} action="">

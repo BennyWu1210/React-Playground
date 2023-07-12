@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import Navbar from "../components/shared/Navbar";
 import Header from "../components/FoodHeader";
 import Meals from "../components/Meals/Meals";
 import Cart from "../components/Cart/Cart";
 import CartProvider from "../store/CartProvider";
+import Navbar from "../components/shared/Navbar";
 
 const FoodPage = () => {
   const [cartIsShown, setCartIsShown] = useState(false);
@@ -17,7 +17,7 @@ const FoodPage = () => {
 
   return (
     <CartProvider>
-      <Navbar />
+      <Navbar /> 
       {cartIsShown && <Cart onClose={hideCartHandler} />}
       <Header onShowCart={showCartHandler} />
       <main>

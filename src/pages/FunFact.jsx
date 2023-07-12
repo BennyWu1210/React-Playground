@@ -1,8 +1,8 @@
 import "./FunFact.css";
-import Navbar from "../components/shared/Navbar";
 import { useState } from "react";
 import axios from "axios";
 import Button from "../components/shared/Button";
+import Navbar from "../components/shared/Navbar";
 
 const FunFact = () => {
   const [result, setResult] = useState('""');
@@ -39,7 +39,7 @@ const FunFact = () => {
 
   return (
     <div className="fun-container">
-      <Navbar />
+      <Navbar /> 
       <div className="fun-content">
         <h2>{result}</h2>
       </div>

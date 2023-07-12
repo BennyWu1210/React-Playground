@@ -13,7 +13,7 @@ const linkInfo = [
 
 const navVariants = {
   displayed: {
-    clipPath: "circle(1500px at calc(50% + 18px) 10%)",
+    clipPath: "circle(1600px at calc(50% + 18px) 10%)",
     transition: {
       type: "spring",
       stiffness: 20,
@@ -48,14 +48,12 @@ const linkVariants = {
 
 const linksVariants = {
   displayed: {
-    y: 0,
     transition: {
       staggerChildren: 0.07,
       delayChildren: 0.2,
     },
   },
   closed: {
-    y: -1000,
     transition: {
       delay: 0.5,
       staggerChildren: 0.05,
@@ -131,13 +129,18 @@ const Navbar = () => {
       ></motion.div>
       <motion.button onClick={toggleDisplay}>{SVG}</motion.button>
 
-      <motion.ul
-        className="nav-links"
-        variants={linksVariants}
-        // exit={{ y: -5, opacity: 0 }}
-      >
-        {navLinks}
-      </motion.ul>
+      <AnimatePresence>
+        {displayed && (
+          <motion.ul
+            className="nav-links"
+            variants={linksVariants}
+            exit={{ y: -600, transition: {delay: 1}}}
+            
+          >
+            {navLinks}
+          </motion.ul>
+        )}
+      </AnimatePresence>
     </motion.nav>
   );
 };

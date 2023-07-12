@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 const Homepage = () => {
   return (
     <div className="home-page">
-      <Navbar />
+      <Navbar /> 
       <div className="home-content">
         <span>Welcome to Benny's</span>
         <br></br>
